@@ -8,8 +8,7 @@ const App = () => {
       <Search /> 
       <PaymentPage />
     </BrowserRouter>
-  );
-};
+  )
+}
 
-export default App;
-
+export default App
