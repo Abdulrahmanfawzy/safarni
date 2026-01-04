@@ -45,6 +45,9 @@ body {
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+
+  --shadow-ticket: 0 2px 12px -2px hsl(220 20% 80% / 0.5);
+    --shadow-ticket-hover: 0 8px 24px -4px hsl(220 20% 70% / 0.4);
 }
 
 :root {
