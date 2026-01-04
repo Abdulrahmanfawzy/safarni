@@ -35,7 +35,7 @@ const Recommendation = () => {
         }
     ];
     return (
-        <section className="container mx-auto flex flex-col gap-3">
+        <section className="flex flex-col gap-3">
             <SectionHeader title="Recommendation" path="/" />
             <div className="grid grid-cols-4 gap-8">
                 {recommendationsData.map((trip, index) => {

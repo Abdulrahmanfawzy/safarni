@@ -38,7 +38,7 @@ const AvaliableTours = () => {
     }
 ];
     return (
-        <section className="container mx-auto flex flex-col gap-3 my-8">
+        <section className=" flex flex-col gap-3 my-8">
             <SectionHeader title="Available Tours" path="/" />
             <div className="grid grid-cols-2 gap-8">
                 {toursData.map((trip, index) => {
