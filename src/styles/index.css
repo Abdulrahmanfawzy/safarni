@@ -1,1 +1,24 @@
 @import "tailwindcss";
+
+@theme {
+  /* Fonts */
+  --font-family-poppins: "Poppins", sans-serif;
+  
+  /* Colors - Primary (Blue) */
+  --color-primary-700: #1E429F;
+  --color-primary-600: #1A56DB;
+  --color-primary-500: #3B82F6;
+  
+  /* Colors - Grays */
+  --color-gray-900: #111928;
+  --color-gray-700: #374151;
+  --color-gray-600: #4B5563;
+  --color-gray-500: #6B7280;
+  --color-gray-300: #D1D5DB;
+  --color-gray-100: #F3F4F6;
+}
+
+/* Utility class for Poppins font */
+.font-poppins {
+  font-family: var(--font-family-poppins);
+}
