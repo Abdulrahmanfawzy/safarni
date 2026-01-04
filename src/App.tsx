@@ -1,15 +1,13 @@
-import { Button } from "@/components/ui/button"
-import FlightBooking from "./pages/flight-booking/FlightBooking"
+import { BrowserRouter } from "react-router-dom";
+import PaymentPage from "./components/checkout/PaymentPage";
 
-import { FlightBookingForm } from './components/flight-booking/FlightBookingForm';
-
-import SeatBookingPage from "./pages/flight-booking/SeatBookingPage";
-function App() {
+const App = () => {
   return (
-  // <FlightBooking />
-  // <FlightBookingForm/>
-  <SeatBookingPage/>
-  )
-}
+    <BrowserRouter>
+      <PaymentPage />
+    </BrowserRouter>
+  );
+};
 
-export default App
+export default App;
+

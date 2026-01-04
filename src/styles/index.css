@@ -1,6 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
-
+body {
+  font-family: "Poppins", sans-serif;
+}
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -122,5 +125,14 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+  .auth-component-layout {
+    @apply flex flex-col items-center px-20 pb-10 pt-8;
+  }
+  .auth-content-layout {
+    @apply flex w-full flex-row items-center justify-between;
+  }
+  .form-button {
+    @apply w-full h-12 rounded-sm text-xl font-semibold bg-blue-800 text-white hover:text-white hover:bg-blue-900;
   }
 }
