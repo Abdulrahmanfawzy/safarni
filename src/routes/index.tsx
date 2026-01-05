@@ -10,7 +10,7 @@ import FlightBooking from "@/pages/flight-booking/FlightBooking";
 import SeatBookingPage from "@/pages/flight-booking/SeatBookingPage";
 import AuthLayout from "@/components/layout/AuthLayout";
 import NewPassword from "@/pages/password-management/NewPassword";
-import Success from "@/components/ui/Success";
+import Success from "@/pages/password-management/Success";
 
 export default function AppRoutes() {
   return (

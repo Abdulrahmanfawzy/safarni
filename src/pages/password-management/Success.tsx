@@ -1,10 +1,10 @@
 import type { FC } from "react";
-import Logo from "./Logo";
+import Logo from "@/components/ui/Logo";
 import success from "@/assets/Success.png";
 import check from "@/assets/check-circle.png";
 import { ChevronLeft } from "lucide-react";
 import { Link } from "react-router-dom";
-import { Button } from "./button";
+import { Button } from "@/components/ui/button";
 
 const Success: FC = () => {
   return (
