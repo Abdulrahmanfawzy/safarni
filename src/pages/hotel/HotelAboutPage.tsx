@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { FiArrowLeft } from "react-icons/fi";
 import { FaStar } from "react-icons/fa";
@@ -10,6 +10,7 @@ import HotelReviews from "../../components/hotel/HotelReviews";
 const HotelAboutPage: React.FC = () => {
   const { hotelId, tab = "about" } = useParams<{ hotelId: string; tab?: string }>();
   const navigate = useNavigate();
+  const [showReviewForm, setShowReviewForm] = useState(false);
 
   const activeTab = tab;
 
@@ -103,8 +104,6 @@ const HotelAboutPage: React.FC = () => {
         return <HotelAbout hotel={hotelData} />;
       case "gallery":
         return <HotelGallery images={hotelData.gallery} galleryCount={200} />;
-      case "reviews":
-        return <HotelReviews reviews={reviewsData} />;
       default:
         return <HotelAbout hotel={hotelData} />;
     }
@@ -160,36 +159,45 @@ const HotelAboutPage: React.FC = () => {
               </p>
             </div>
 
-            <div className="mb-8">
-              <div className="flex items-center space-x-4 lg:space-x-50 border-b border-gray-200 pb-2 overflow-x-auto">
-                {[
-                  { key: "about", label: "About" },
-                  { key: "gallery", label: "Gallery" },
-                  { key: "reviews", label: "Review" },
-                ].map((tabItem) => (
-                  <Link
-                    key={tabItem.key}
-                    to={`/hotel/${hotelId}/${tabItem.key}`}
-                    className={`font-medium text-base lg:text-lg transition-colors relative pb-2 whitespace-nowrap ${
-                      activeTab === tabItem.key
-                        ? "text-blue-600"
-                        : "text-gray-600 hover:text-gray-900"
-                    }`}
-                  >
-                    {tabItem.label}
-                    {tabItem.key === "gallery" && (
-                      <span className="ml-2 text-sm text-gray-500">(200)</span>
-                    )}
-                    {activeTab === tabItem.key && (
-                      <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-600 -mb-2" />
-                    )}
-                  </Link>
-                ))}
+            {!showReviewForm && (
+              <div className="mb-8">
+                <div className="flex items-center space-x-4 lg:space-x-50 border-b border-gray-200 pb-2 overflow-x-auto">
+                  {[
+                    { key: "about", label: "About" },
+                    { key: "gallery", label: "Gallery" },
+                    { key: "reviews", label: "Review" },
+                  ].map((tabItem) => (
+                    <Link
+                      key={tabItem.key}
+                      to={`/hotel/${hotelId}/${tabItem.key}`}
+                      className={`font-medium text-base lg:text-lg transition-colors relative pb-2 whitespace-nowrap ${
+                        activeTab === tabItem.key
+                          ? "text-blue-600"
+                          : "text-gray-600 hover:text-gray-900"
+                      }`}
+                    >
+                      {tabItem.label}
+                      {tabItem.key === "gallery" && (
+                        <span className="ml-2 text-sm text-gray-500">(200)</span>
+                      )}
+                      {activeTab === tabItem.key && (
+                        <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-600 -mb-2" />
+                      )}
+                    </Link>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
 
             <div className="space-y-8">
-              {renderContent()}
+              {activeTab === "reviews" ? (
+                <HotelReviews 
+                  reviews={reviewsData} 
+                  onReviewFormToggle={setShowReviewForm}
+                />
+              ) : (
+                renderContent()
+              )}
 
               <div className="flex flex-col items-center">
                 <div className="w-full max-w-[512px] mb-6">
