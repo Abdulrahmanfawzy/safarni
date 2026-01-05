@@ -8,7 +8,7 @@ import { Link } from "react-router-dom"
 
 export default function WelcomePage() {
   return (
-    <div className="h-screen flex flex-col justify-center">
+    <div className="h-screen relative flex flex-col justify-center lg:justify-start gap-25">
       <AuthHeader variant="welcome" />
       <main className="">
         <AuthPageTemplate image={welcome}>

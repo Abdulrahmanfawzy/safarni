@@ -17,7 +17,7 @@ export default function AppRoutes() {
         <Route
           path="favorite"
           element={
-            <div className="pt-[110px] p-8">
+            <div className="pt-27.5 p-8">
               <h1>Favorite Page</h1>
             </div>
           }
@@ -25,7 +25,7 @@ export default function AppRoutes() {
         <Route
           path="compare"
           element={
-            <div className="pt-[110px] p-8">
+            <div className="pt-27.5 p-8">
               <h1>Compare Page</h1>
             </div>
           }
@@ -33,7 +33,7 @@ export default function AppRoutes() {
         <Route
           path="maps"
           element={
-            <div className="pt-[110px] p-8">
+            <div className="pt-27.5 p-8">
               <h1>Maps Page</h1>
             </div>
           }
