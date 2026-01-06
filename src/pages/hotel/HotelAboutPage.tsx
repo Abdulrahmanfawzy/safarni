@@ -6,11 +6,13 @@ import { FaStar } from "react-icons/fa";
 import HotelAbout from "../../components/hotel/HotelAbout";
 import HotelGallery from "../../components/hotel/HotelGallery";
 import HotelReviews from "../../components/hotel/HotelReviews";
+import CheckInOutContent from "../../components/hotel/CheckInOutForm"; 
 
 const HotelAboutPage: React.FC = () => {
   const { hotelId, tab = "about" } = useParams<{ hotelId: string; tab?: string }>();
   const navigate = useNavigate();
   const [showReviewForm, setShowReviewForm] = useState(false);
+  const [showBooking, setShowBooking] = useState(false); 
 
   const activeTab = tab;
 
@@ -78,8 +80,9 @@ const HotelAboutPage: React.FC = () => {
     },
   ];
 
+  // تعديل: تغيير الحالة لعرض الـ booking
   const handleBookNow = () => {
-    alert(`Booking ${hotelData.name}...`);
+    setShowBooking(true);
   };
 
   const calculateTotalPrice = () => {
@@ -99,6 +102,10 @@ const HotelAboutPage: React.FC = () => {
   const prices = calculateTotalPrice();
 
   const renderContent = () => {
+    if (showBooking) {
+      return <CheckInOutContent hotel={hotelData} onBack={() => setShowBooking(false)} />;
+    }
+
     switch (activeTab) {
       case "about":
         return <HotelAbout hotel={hotelData} />;
@@ -159,7 +166,8 @@ const HotelAboutPage: React.FC = () => {
               </p>
             </div>
 
-            {!showReviewForm && (
+            {/* عرض التبس فقط إذا لم يكن في وضع الـ booking */}
+            {!showBooking && !showReviewForm && (
               <div className="mb-8">
                 <div className="flex items-center space-x-4 lg:space-x-50 border-b border-gray-200 pb-2 overflow-x-auto">
                   {[
@@ -189,8 +197,21 @@ const HotelAboutPage: React.FC = () => {
               </div>
             )}
 
+            {/* عرض زر Back للـ booking إذا كان نشطاً */}
+            {showBooking && (
+              <div className="mb-8">
+                <button
+                  onClick={() => setShowBooking(false)}
+                  className="flex items-center gap-2 text-blue-600 hover:text-blue-800 mb-4"
+                >
+                  <FiArrowLeft className="w-5 h-5" />
+                  <span>Back to Hotel Details</span>
+                </button>
+              </div>
+            )}
+
             <div className="space-y-8">
-              {activeTab === "reviews" ? (
+              {activeTab === "reviews" && !showBooking ? (
                 <HotelReviews 
                   reviews={reviewsData} 
                   onReviewFormToggle={setShowReviewForm}
@@ -199,25 +220,28 @@ const HotelAboutPage: React.FC = () => {
                 renderContent()
               )}
 
-              <div className="flex flex-col items-center">
-                <div className="w-full max-w-[512px] mb-6">
-                  <h4 className="text-gray-900 font-poppins font-normal text-[20px] lg:text-[24px] ">
-                    Total Price :
-                    <span className="ml-2 font-semibold text-[22px] lg:text-[26px]">
-                      ${prices.totalPrice.toFixed(2)}/night
-                    </span>
-                  </h4>
-                </div>
+              {/* إخفاء زر Book Now والسعر عندما نكون في صفحة الـ booking */}
+              {!showBooking && (
+                <div className="flex flex-col items-center">
+                  <div className="w-full max-w-[512px] mb-6">
+                    <h4 className="text-gray-900 font-poppins font-normal text-[20px] lg:text-[24px] ">
+                      Total Price :
+                      <span className="ml-2 font-semibold text-[22px] lg:text-[26px]">
+                        ${prices.totalPrice.toFixed(2)}/night
+                      </span>
+                    </h4>
+                  </div>
 
-                <div className="w-full max-w-[518px]">
-                  <button
-                    onClick={handleBookNow}
-                    className="w-full h-[56px] bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition duration-300 ease-in-out transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-                  >
-                    Book Now
-                  </button>
+                  <div className="w-full max-w-[518px]">
+                    <button
+                      onClick={handleBookNow}
+                      className="w-full h-[56px] bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition duration-300 ease-in-out transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                    >
+                      Book Now
+                    </button>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         </div>

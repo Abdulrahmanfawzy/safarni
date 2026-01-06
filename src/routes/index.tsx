@@ -11,6 +11,7 @@ import SeatBookingPage from "@/pages/flight-booking/SeatBookingPage";
 import HotelPage from "@/pages/hotel/HotelPage";
 import HotelAboutPage from "@/pages/hotel/HotelAboutPage";
 import { Provider } from "react-redux";
+
 import { store } from "@/store";
 
 export default function AppRoutes() {
