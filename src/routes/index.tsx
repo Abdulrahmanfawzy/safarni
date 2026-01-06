@@ -17,6 +17,9 @@ import { Favorites } from "@/pages/favourite/Favorites";
 import { Provider } from "react-redux";
 
 import { store } from "@/store";
+import BoardingPassPage from "@/pages/flight-booking/BoardingPassPage";
+import FilterPanelPage from "@/pages/flight-booking/FilterPanelPage";
+import { FlightBookingForm } from "@/pages/flight-booking/FlightBookingForm";
 import PaymentPage from "@/components/checkout/PaymentPage";
 import SuccessPage from "@/components/checkout/pages/SuccessPage";
 import ErrorPage from "@/components/checkout/pages/ErrorPage";
@@ -62,6 +65,9 @@ export default function AppRoutes() {
       </Route>
       <Route path="/flight-booking" element={<FlightBooking />} />
       <Route path="/seat-booking" element={<SeatBookingPage />} />
+      <Route path="/boarding-pass" element={<BoardingPassPage />} />
+      <Route path="/filter-panel" element={<FilterPanelPage />} />
+      <Route path="/flight-form" element={<FlightBookingForm />} />
       <Route path="/success" element={<Success />} />
       <Route path="/hotel" element={<HotelPage />} />
       <Route path="hotel/:hotelId" element={<HotelAboutPage />} />
