@@ -27,6 +27,9 @@ import ErrorPage from "@/components/checkout/pages/ErrorPage";
 import CarsPage from "@/pages/cars";
 import CarDetailsPage from "@/pages/cars/details";
 import PickUpPage from "@/pages/cars/pickup";
+import ProfileSettings from "@/components/profile/ProfileSettings";
+import PersonalInformation from "@/components/profile/PersonalInformation";
+import AccountSecurity from "@/components/profile/AccountSecurity";
 export default function AppRoutes() {
   return (
     <Provider store={store}>
@@ -37,7 +40,7 @@ export default function AppRoutes() {
           <Route
             path="compare"
             element={
-              <div className="pt-[110px] p-8">
+              <div className="pt-27.5 p-8">
                 <h1>Compare Page</h1>
               </div>
             }
@@ -45,7 +48,7 @@ export default function AppRoutes() {
           <Route
             path="maps"
             element={
-              <div className="pt-[110px] p-8">
+              <div className="pt-27.5 p-8">
                 <h1>Maps Page</h1>
               </div>
             }
@@ -75,6 +78,11 @@ export default function AppRoutes() {
       <Route path="/cars" element={<CarsPage />} />
       <Route path="/cars/:id" element={<CarDetailsPage />} />
       <Route path="/cars/:id/pick-up" element={<PickUpPage />} />
+            <Route path="/profile" element={<ProfileSettings />} />
+      <Route path="/personal-info" element={<PersonalInformation />} />
+      <Route path="/security" element={<AccountSecurity />} />
+
+
       </Routes>
     </Provider>
   )
