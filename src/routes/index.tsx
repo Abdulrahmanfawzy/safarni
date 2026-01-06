@@ -17,7 +17,9 @@ import { Favorites } from "@/pages/favourite/Favorites";
 import { Provider } from "react-redux";
 
 import { store } from "@/store";
-
+import BoardingPassPage from "@/pages/flight-booking/BoardingPassPage";
+import FilterPanelPage from "@/pages/flight-booking/FilterPanelPage";
+import { FlightBookingForm } from "@/pages/flight-booking/FlightBookingForm";
 import PaymentPage from "@/components/checkout/PaymentPage";
 import SuccessPage from "@/components/checkout/pages/SuccessPage";
 import ErrorPage from "@/components/checkout/pages/ErrorPage";
@@ -25,6 +27,9 @@ import ErrorPage from "@/components/checkout/pages/ErrorPage";
 import CarsPage from "@/pages/cars";
 import CarDetailsPage from "@/pages/cars/details";
 import PickUpPage from "@/pages/cars/pickup";
+import ProfileSettings from "@/components/profile/ProfileSettings";
+import PersonalInformation from "@/components/profile/PersonalInformation";
+import AccountSecurity from "@/components/profile/AccountSecurity";
 export default function AppRoutes() {
   return (
     <Provider store={store}>
@@ -35,7 +40,7 @@ export default function AppRoutes() {
           <Route
             path="compare"
             element={
-              <div className="pt-[110px] p-8">
+              <div className="pt-27.5 p-8">
                 <h1>Compare Page</h1>
               </div>
             }
@@ -43,7 +48,7 @@ export default function AppRoutes() {
           <Route
             path="maps"
             element={
-              <div className="pt-[110px] p-8">
+              <div className="pt-27.5 p-8">
                 <h1>Maps Page</h1>
               </div>
             }
@@ -63,7 +68,9 @@ export default function AppRoutes() {
       </Route>
       <Route path="/flight-booking" element={<FlightBooking />} />
       <Route path="/seat-booking" element={<SeatBookingPage />} />
-
+      <Route path="/boarding-pass" element={<BoardingPassPage />} />
+      <Route path="/filter-panel" element={<FilterPanelPage />} />
+      <Route path="/flight-form" element={<FlightBookingForm />} />
       <Route path="/success" element={<Success />} />
       <Route path="/hotel" element={<HotelPage />} />
       <Route path="hotel/:hotelId" element={<HotelAboutPage />} />
@@ -71,6 +78,10 @@ export default function AppRoutes() {
       <Route path="/cars" element={<CarsPage />} />
       <Route path="/cars/:id" element={<CarDetailsPage />} />
       <Route path="/cars/:id/pick-up" element={<PickUpPage />} />
+            <Route path="/profile" element={<ProfileSettings />} />
+      <Route path="/personal-info" element={<PersonalInformation />} />
+      <Route path="/security" element={<AccountSecurity />} />
+
 
       </Routes>
     </Provider>
