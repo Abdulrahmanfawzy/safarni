@@ -15,6 +15,7 @@ import HotelPage from "@/pages/hotel/HotelPage";
 import HotelAboutPage from "@/pages/hotel/HotelAboutPage";
 import { Favorites } from "@/pages/favourite/Favorites";
 import { Provider } from "react-redux";
+
 import { store } from "@/store";
 import PaymentPage from "@/components/checkout/PaymentPage";
 import SuccessPage from "@/components/checkout/pages/SuccessPage";
@@ -29,11 +30,7 @@ export default function AppRoutes() {
       <Routes>
         <Route path="/" element={<MainLayout />}>
           <Route index element={<Home />} />
-          <Route
-            path="favorite"
-            element={<Favorites />
-            }
-          />
+          <Route path="favorite" element={<Favorites />} />
           <Route
             path="compare"
             element={
@@ -74,5 +71,5 @@ export default function AppRoutes() {
       <Route path="/cars/:id/pick-up" element={<PickUpPage />} />
       </Routes>
     </Provider>
-  );
+  )
 }
