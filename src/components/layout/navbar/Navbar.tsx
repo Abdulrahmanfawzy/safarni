@@ -45,7 +45,10 @@ export const Navbar = ({
         {/* Mobile Actions (Search, Filter, User, Menu) */}
         <div className="lg:hidden flex items-center gap-2 sm:gap-3 md:gap-4 flex-shrink-0">
           <button
-            onClick={onSearchClick}
+            onClick={() => {
+              onSearchClick?.();
+              navigate("/search");
+            }}
             className="flex items-center justify-center cursor-pointer hover:opacity-80 transition-opacity w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0 p-1"
             aria-label="Search"
           >

@@ -31,6 +31,8 @@ import PickUpPage from "@/pages/cars/pickup";
 import ProfileSettings from "@/components/profile/ProfileSettings";
 import PersonalInformation from "@/components/profile/PersonalInformation";
 import AccountSecurity from "@/components/profile/AccountSecurity";
+import CompareToursPage from "@/pages/compare/CompareToursPage";
+import Search from "@/pages/Search/Search";
 export default function AppRoutes() {
   return (
     <Provider store={store}>
@@ -38,11 +40,12 @@ export default function AppRoutes() {
         <Route path="/" element={<MainLayout />}>
           <Route index element={<Home />} />
           <Route path="favorite" element={<Favorites />} />
+          <Route path="compare" element={<CompareToursPage />} />
           <Route
-            path="compare"
+            path="search"
             element={
               <div className="pt-27.5 p-8">
-                <h1>Compare Page</h1>
+                <Search />
               </div>
             }
           />

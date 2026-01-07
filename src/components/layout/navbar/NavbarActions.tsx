@@ -20,7 +20,10 @@ export const NavbarActions = ({
   return (
     <div className="flex items-center gap-6 sm:gap-8 lg:gap-10 w-auto lg:w-[180px] h-9">
       <button
-        onClick={onSearchClick}
+        onClick={() => {
+          onSearchClick?.();
+          navigate("/search");
+        }}
         className="flex items-center justify-center cursor-pointer hover:opacity-80 transition-opacity flex-shrink-0"
         aria-label="Search"
       >
