@@ -3,17 +3,17 @@ import OTPVerifyImg from "@/assets/OTPVerifyImg.png";
 import type { FC } from "react";
 import { Mail } from "lucide-react";
 import OTPForm from "@/components/password-management/OTPForm";
-// import { Navigate, useLocation } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import BackButton from "@/components/backButton";
 
 const OTPVerification: FC = () => {
-  // const location = useLocation();
-  const email = "mariam@gmail.com";
-  const user_id = 4;
+  const location = useLocation();
+  const email = location.state.email;
+  const user_id = location.state.user_id;
 
-  // if (!email || !user_id) {
-  //   return <Navigate to="/auth/forgot-password" replace />;
-  // }
+  if (!email || !user_id) {
+    return <Navigate to="/auth/forgot-password" replace />;
+  }
 
   return (
     <div className="auth-component-layout">
@@ -30,7 +30,7 @@ const OTPVerification: FC = () => {
           <Mail size={28} color="#AFAFAF" />
           <div className="flex flex-col items-center gap-4">
             <h4 className="text-gray-900 text-3xl font-medium">Verify Code</h4>
-            <p className="text-gray-500 text-lg">
+            <p className="text-gray-500 text-lg text-center">
               Please enter the code we just sent to email
             </p>
             <p className="text-gray-900 font-medium">{email}</p>

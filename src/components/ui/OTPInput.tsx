@@ -30,8 +30,8 @@ const OTPInput: FC<OTPInputProps> = ({ value, onChange }) => {
   };
   return (
     <MuiOtpInput
-      length={6}
-     
+      length={4}
+     className="w-xs"
       value={value}
       onChange={onChange}
       TextFieldsProps={TextFieldsProps}
