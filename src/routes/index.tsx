@@ -27,6 +27,7 @@ import ErrorPage from "@/components/checkout/pages/ErrorPage";
 import CarsPage from "@/pages/cars";
 import CarDetailsPage from "@/pages/cars/details";
 import PickUpPage from "@/pages/cars/pickup";
+
 export default function AppRoutes() {
   return (
     <Provider store={store}>
@@ -68,6 +69,7 @@ export default function AppRoutes() {
       <Route path="/boarding-pass" element={<BoardingPassPage />} />
       <Route path="/filter-panel" element={<FilterPanelPage />} />
       <Route path="/flight-form" element={<FlightBookingForm />} />
+      
       <Route path="/success" element={<Success />} />
       <Route path="/hotel" element={<HotelPage />} />
       <Route path="hotel/:hotelId" element={<HotelAboutPage />} />
