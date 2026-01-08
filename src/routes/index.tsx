@@ -10,7 +10,8 @@ import FlightBooking from "@/pages/flight-booking/FlightBooking";
 import SeatBookingPage from "@/pages/flight-booking/SeatBookingPage";
 import AuthLayout from "@/components/layout/AuthLayout";
 import NewPassword from "@/pages/password-management/NewPassword";
-import Success from "@/components/ui/Success";
+import ResetPassSuccess from "@/pages/password-management/Success";
+
 import HotelPage from "@/pages/hotel/HotelPage";
 import HotelAboutPage from "@/pages/hotel/HotelAboutPage";
 import { Favorites } from "@/pages/favourite/Favorites";
@@ -27,7 +28,9 @@ import ErrorPage from "@/components/checkout/pages/ErrorPage";
 import CarsPage from "@/pages/cars";
 import CarDetailsPage from "@/pages/cars/details";
 import PickUpPage from "@/pages/cars/pickup";
-
+import ProfileSettings from "@/components/profile/ProfileSettings";
+import PersonalInformation from "@/components/profile/PersonalInformation";
+import AccountSecurity from "@/components/profile/AccountSecurity";
 export default function AppRoutes() {
   return (
     <Provider store={store}>
@@ -38,7 +41,7 @@ export default function AppRoutes() {
           <Route
             path="compare"
             element={
-              <div className="pt-[110px] p-8">
+              <div className="pt-27.5 p-8">
                 <h1>Compare Page</h1>
               </div>
             }
@@ -46,7 +49,7 @@ export default function AppRoutes() {
           <Route
             path="maps"
             element={
-              <div className="pt-[110px] p-8">
+              <div className="pt-27.5 p-8">
                 <h1>Maps Page</h1>
               </div>
             }
@@ -54,30 +57,32 @@ export default function AppRoutes() {
           <Route path="payment" element={<PaymentPage />} />
           <Route path="payment/success" element={<SuccessPage />} />
           <Route path="payment/error" element={<ErrorPage />} />
-      </Route>
-      <Route path="/welcome" element={<WelcomePage />} />
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/signup" element={<SignUpPage />} />
-      <Route path="/auth" element={<AuthLayout />}>
-        <Route index element={<Navigate to="forgot-password" replace />} />
-        <Route path="forgot-password" element={<ForgotPassword />} />
-        <Route path="otp-verify" element={<OTPVerification />} />
-        <Route path="new-password" element={<NewPassword />} />
-      </Route>
-      <Route path="/flight-booking" element={<FlightBooking />} />
-      <Route path="/seat-booking" element={<SeatBookingPage />} />
-      <Route path="/boarding-pass" element={<BoardingPassPage />} />
-      <Route path="/filter-panel" element={<FilterPanelPage />} />
-      <Route path="/flight-form" element={<FlightBookingForm />} />
-      
-      <Route path="/success" element={<Success />} />
-      <Route path="/hotel" element={<HotelPage />} />
-      <Route path="hotel/:hotelId" element={<HotelAboutPage />} />
-      <Route path="hotel/:hotelId/:tab" element={<HotelAboutPage />} />
-      <Route path="/cars" element={<CarsPage />} />
-      <Route path="/cars/:id" element={<CarDetailsPage />} />
-      <Route path="/cars/:id/pick-up" element={<PickUpPage />} />
+        </Route>
+        <Route path="/welcome" element={<WelcomePage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/auth" element={<AuthLayout />}>
+          <Route index element={<Navigate to="forgot-password" replace />} />
+          <Route path="forgot-password" element={<ForgotPassword />} />
+          <Route path="otp-verify" element={<OTPVerification />} />
+          <Route path="new-password" element={<NewPassword />} />
+        </Route>
+        <Route path="/flight-booking" element={<FlightBooking />} />
+        <Route path="/seat-booking" element={<SeatBookingPage />} />
+        <Route path="/boarding-pass" element={<BoardingPassPage />} />
+        <Route path="/filter-panel" element={<FilterPanelPage />} />
+        <Route path="/flight-form" element={<FlightBookingForm />} />
+        <Route path="/success" element={<ResetPassSuccess />} />
+        <Route path="/hotel" element={<HotelPage />} />
+        <Route path="hotel/:hotelId" element={<HotelAboutPage />} />
+        <Route path="hotel/:hotelId/:tab" element={<HotelAboutPage />} />
+        <Route path="/cars" element={<CarsPage />} />
+        <Route path="/cars/:id" element={<CarDetailsPage />} />
+        <Route path="/cars/:id/pick-up" element={<PickUpPage />} />
+        <Route path="/profile" element={<ProfileSettings />} />
+        <Route path="/personal-info" element={<PersonalInformation />} />
+        <Route path="/security" element={<AccountSecurity />} />
       </Routes>
     </Provider>
-  )
+  );
 }
