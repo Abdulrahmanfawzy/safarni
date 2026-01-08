@@ -105,7 +105,6 @@ export const useSignup = () => {
     hasPasswordError,
     errors,
     passwordValue,
-    mutate,
     isPending,
   }
 }
