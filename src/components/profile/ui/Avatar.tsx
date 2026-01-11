@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { Camera, Loader2, UserCircle } from 'lucide-react';
 import { ALLOWED_IMAGE_TYPES, MAX_IMAGE_SIZE } from '../../../constants/profile.constants';
 import toast from 'react-hot-toast';
@@ -75,9 +75,7 @@ export const Avatar: React.FC<AvatarProps> = ({
         }
     };
 
-    useEffect(() => {
-        setImageError(false);
-    }, [src]);
+
 
     return (
         <div className="relative">
