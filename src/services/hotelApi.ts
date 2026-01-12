@@ -1,44 +1,76 @@
 // src/services/hotelApi.ts
 const BASE_URL = 'https://round8-safarni-team-three.huma-volve.com/api';
 
+/* ========= Types ========= */
+
+export interface PaginationLinks {
+  first: string;
+  last: string;
+  prev: string | null;
+  next: string | null;
+}
+
+export interface PaginationMeta {
+  current_page: number;
+  last_page: number;
+  per_page: number;
+  total: number;
+}
+
+export interface Hotel {
+  id: number;
+  name: string;
+  location: string;
+  rating: number;
+  image: string | null;
+  content_info?: string;
+  about?: string;
+  description?: string;
+  amenities?: string[];
+  gallery?: string[];
+  pricePerNight?: number;
+  discountPercentage?: number;
+  nights?: number;
+  taxesAndFees?: number;
+  rooms?: Array<{ id: number | string; name: string }>;
+  phone?: string;
+  distance?: string;
+}
+
+export interface ApiResponse<T> {
+  data: T;
+  links?: PaginationLinks;
+  meta?: PaginationMeta;
+  status: string;
+  message: string;
+}
+
+const request = async <T>(url: string): Promise<ApiResponse<T>> => {
+  const response = await fetch(url);
+
+  if (!response.ok) {
+    throw new Error(`API Error: ${response.status}`);
+  }
+
+  return response.json();
+};
+
 export const hotelApi = {
-  // 1. جلب كل الفنادق
-  getAllHotels: async (page: number = 1) => {
-    try {
-      const response = await fetch(`${BASE_URL}/hotel?page=${page}`);
-      if (!response.ok) throw new Error('Network response was not ok');
-      return await response.json();
-    } catch (error) {
-      console.error("Error fetching hotels:", error);
-      throw error;
-    }
-  },
+  getAllHotels: (page: number = 1) =>
+    request<Hotel[]>(`${BASE_URL}/hotel?page=${page}`),
 
-  // 2. جلب فندق محدد بواسطة ID
-  getHotelById: async (id: string | number) => {
-    try {
-      const response = await fetch(`${BASE_URL}/hotel/${id}`);
-      if (!response.ok) throw new Error('Hotel not found');
-      return await response.json();
-    } catch (error) {
-      console.error("Error fetching hotel details:", error);
-      throw error;
-    }
-  },
+  // Search hotels
+  searchHotels: (query: string) =>
+    request<Hotel[]>(`${BASE_URL}/hotel?search=${encodeURIComponent(query)}`),
 
-  // 3. البحث عن الفنادق
-  searchHotels: async (query: string) => {
-    try {
-      const response = await fetch(`${BASE_URL}/hotel?search=${query}`);
-      if (!response.ok) throw new Error('Search failed');
-      return await response.json();
-    } catch (error) {
-      console.error("Error searching hotels:", error);
-      throw error;
-    }
-  },
+  // Get single hotel by ID
+  getHotelById: (id: string | number) =>
+    request<Hotel>(`${BASE_URL}/hotel/${id}`),
 
-  // 4. إضافة تقييم جديد
+  // Pagination using backend links (next / prev)
+  getByUrl: (url: string) =>
+    request(url),
+
   addHotelReview: async (hotelId: string | number, reviewData: any) => {
     try {
       const response = await fetch(`${BASE_URL}/hotel/${hotelId}/reviews`, {
@@ -56,7 +88,6 @@ export const hotelApi = {
     }
   },
 
-  // 5. تمييز التقييم كمفيد
   markHelpful: async (reviewId: number) => {
     try {
       const response = await fetch(`${BASE_URL}/reviews/${reviewId}/helpful`, {
@@ -70,35 +101,33 @@ export const hotelApi = {
     }
   },
 
+  createBooking: async (bookingData: {
+    room_id: number;
+    check_in: string;
+    check_out: string;
+    adults: number;
+    children?: number;
+    infants?: number;
+    comment?: string;
+  }) => {
+    const response = await fetch(`${BASE_URL}/hotel-bookings`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      },
+      body: JSON.stringify(bookingData),
+    });
 
+    const data = await response.json();
 
-   createBooking: async (bookingData: {
-  room_id: number;
-  check_in: string;
-  check_out: string;
-  adults: number;
-  children?: number;
-  infants?: number;
-  comment?: string;
-}) => {
-  const response = await fetch(`${BASE_URL}/hotel-bookings`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json'
-    },
-    body: JSON.stringify(bookingData),
-  });
+    if (!response.ok) {
+      throw data; 
+    }
 
-  const data = await response.json();
+    return data;
+  },
 
-  if (!response.ok) {
-    throw data; 
-  }
-
-  return data;
-}
-,
   checkBookingAPIs: async () => {
     const endpoints = [
       '/hotel-bookings',
