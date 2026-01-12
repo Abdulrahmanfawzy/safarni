@@ -1,85 +1,81 @@
-
+import { useLocation, useNavigate } from "react-router-dom";
 import FlightTicketCard from "@/components/flight-booking/FlightTicketCard";
 import { DateSwitchHeader } from "@/components/flight-booking/DataSwitchHeader";
+import type {
+  FlightsSearchData,
+  Flight,
+} from "@/types/flight-booking/flights-response";
+import { getFlightSeats } from "@/api/flight-booking/flight-seats";
 
 export default function FlightBooking() {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const results = location.state?.results as FlightsSearchData | undefined;
+
+  if (!results) {
+    return (
+      <div className="p-6">
+        <p>No results found</p>
+        <button
+          onClick={() => navigate("/")}
+          className="underline text-blue-600"
+        >
+          Back to search
+        </button>
+      </div>
+    );
+  }
+
+  const mapFlightToCard = (flight: Flight) => ({
+    departureTime: flight.departure_time,
+    departureAirport: flight.departure_airport_code,
+    arrivalTime: flight.arrival_time,
+    arrivalAirport: flight.arrival_airport_code,
+    duration: `${Math.floor(flight.duration_minutes / 60)}:${
+      flight.duration_minutes % 60
+    }`,
+    airline: flight.aircraft_type,
+    price: Number(flight.current_price),
+  });
+
+  const handleFlightClick = async (flightId: number) => {
+    try {
+      const res = await getFlightSeats(flightId);
+      console.log("Seats data:", res.data);
+      navigate(`/seat-booking`);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background p-6 gap-10 flex-wrap">
-      <div className="flex w-full max-w-xl flex-col gap-4 flex-wrap">
-        <DateSwitchHeader date="August 24, 2024" />
-
-        <FlightTicketCard
-          departureTime="7:05 AM"
-          departureAirport="YUL"
-          arrivalTime="8:55 PM"
-          arrivalAirport="YUL"
-          duration="18:55"
-          airline="Scoot"
-          price={1300}
-          layover={{ airport: "1 layover: YYZ", duration: "3:55" }}
-        />
-
-        <FlightTicketCard
-          departureTime="10:30 AM"
-          departureAirport="JFK"
-          arrivalTime="2:15 PM"
-          arrivalAirport="LAX"
-          duration="5:45"
-          airline="Delta"
-          price={459}
-        />
-
-        <FlightTicketCard
-          departureTime="6:00 PM"
-          departureAirport="SFO"
-          arrivalTime="9:30 AM"
-          arrivalAirport="LHR"
-          duration="10:30"
-          airline="British Airways"
-          price={2150}
-          currency="£"
-          layover={{ airport: "1 layover: ORD", duration: "1:20" }}
-        />
-      </div>
+    <div className="flex min-h-screen justify-center bg-background p-6 gap-10 flex-wrap">
+      {/* Departure Flights */}
       <div className="flex w-full max-w-xl flex-col gap-4">
-        <DateSwitchHeader date="August 24, 2024" />
-
-        <FlightTicketCard
-          departureTime="7:05 AM"
-          departureAirport="YUL"
-          arrivalTime="8:55 PM"
-          arrivalAirport="YUL"
-          duration="18:55"
-          airline="Scoot"
-          price={1300}
-          layover={{ airport: "1 layover: YYZ", duration: "3:55" }}
-        />
-
-        <FlightTicketCard
-          departureTime="10:30 AM"
-          departureAirport="JFK"
-          arrivalTime="2:15 PM"
-          arrivalAirport="LAX"
-          duration="5:45"
-          airline="Delta"
-          price={459}
-        />
-
-        <FlightTicketCard
-          departureTime="6:00 PM"
-          departureAirport="SFO"
-          arrivalTime="9:30 AM"
-          arrivalAirport="LHR"
-          duration="10:30"
-          airline="British Airways"
-          price={2150}
-          currency="£"
-          layover={{ airport: "1 layover: ORD", duration: "1:20" }}
-        />
+        <DateSwitchHeader date={results.departure_flights[0]?.departure_date} />
+        {results.departure_flights.map(flight => (
+          <FlightTicketCard
+            key={flight.id}
+            {...mapFlightToCard(flight)}
+            onClick={() => handleFlightClick(flight.id)}
+          />
+        ))}
       </div>
+
+      {/* Return Flights */}
+      {results.type === "round-trip" && (
+        <div className="flex w-full max-w-xl flex-col gap-4">
+          <DateSwitchHeader date={results.return_flights[0]?.departure_date} />
+          {results.return_flights.map(flight => (
+            <FlightTicketCard
+              key={flight.id}
+              {...mapFlightToCard(flight)}
+              onClick={() => handleFlightClick(flight.id)}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
-  
-
-

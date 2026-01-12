@@ -12,7 +12,7 @@ export interface FlightTicketCardProps {
   arrivalTime: string;
   arrivalAirport: string;
   duration: string;
-  airline: string;
+  airline?: string;
   price: number;
   currency?: string;
   layover?: Layover;
@@ -29,7 +29,7 @@ const FlightTicketCard = ({
   arrivalTime,
   arrivalAirport,
   duration,
-  airline,
+  airline = "Delta",
   price,
   currency = "$",
   layover,
