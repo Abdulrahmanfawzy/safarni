@@ -17,7 +17,7 @@ export interface HotelCardProps {
 const HotelCard = ({
   name,
   location,
-  rating,
+  rating = 0,
   pricePerNight,
   totalPrice,
   nights = 1,
@@ -27,6 +27,8 @@ const HotelCard = ({
   onClick,
 }: HotelCardProps) => {
   const displayPrice = totalPrice || pricePerNight * nights;
+  const displayImage = image || 'https://images.unsplash.com/photo-1566073771259-6a8506099945';
+  const displayRating = rating || 0;
 
   return (
     <div
@@ -39,9 +41,12 @@ const HotelCard = ({
       {/* Image */}
       <div className="relative h-48 overflow-hidden">
         <img
-          src={image}
+          src={displayImage}
           alt={name}
           className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+          onError={(e) => {
+            (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1566073771259-6a8506099945';
+          }}
         />
         <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-3 py-2 rounded-lg shadow">
           <div className="flex items-baseline">
@@ -70,7 +75,7 @@ const HotelCard = ({
           </div>
           <div className="flex items-center bg-white px-2 py-1 rounded">
             <Star className="w-4 h-4 text-yellow-500 fill-current mr-1" />
-            <span className="text-gray-700 font-medium">{rating.toFixed(1)}</span>
+            <span className="text-gray-700 font-medium">{displayRating.toFixed(1)}</span>
           </div>
         </div>
 
@@ -81,9 +86,10 @@ const HotelCard = ({
               {amenities.slice(0, 3).map((amenity, index) => (
                 <span
                   key={index}
-                  className="px-2 py-1 bg-blue-50 text-blue-600 text-xs rounded-full"
+                  className="px-2 py-1 bg-blue-50 text-blue-600 text-xs rounded-full truncate max-w-[100px]"
+                  title={amenity}
                 >
-                  {amenity}
+                  {amenity.substring(0, 15)}{amenity.length > 15 ? "..." : ""}
                 </span>
               ))}
               {amenities.length > 3 && (
@@ -98,7 +104,13 @@ const HotelCard = ({
 
       {/* Footer */}
       <div className="p-4 pt-0">
-        <button className="w-full py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium">
+        <button 
+          className="w-full py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
+          onClick={(e) => {
+            e.stopPropagation();
+            if (onClick) onClick();
+          }}
+        >
           View Details
         </button>
       </div>

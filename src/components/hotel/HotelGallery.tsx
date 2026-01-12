@@ -1,45 +1,46 @@
+// src/components/hotel/HotelGallery.tsx
 import React, { useState } from "react";
 import { CiCamera } from "react-icons/ci";
+import { useAppSelector } from "../../hooks/useAppSelector";
 
 interface HotelGalleryProps {
-  images: string[];
-  galleryCount?: number;
+  onAddPhoto?: (photo: File) => void;
 }
 
-const HotelGallery: React.FC<HotelGalleryProps> = ({
-  images,
-  galleryCount = 200,
-}) => {
-  const [galleryImages, setGalleryImages] = useState<string[]>(images);
+const HotelGallery: React.FC<HotelGalleryProps> = ({ onAddPhoto }) => {
+  const { currentHotel: hotel } = useAppSelector((state) => state.hotel);
   const [selectedImage, setSelectedImage] = useState<string>(
-    images?.[0] || ""
+    hotel?.gallery?.[0] || ""
   );
 
   const handleAddPhoto = () => {
+    if (!onAddPhoto) return;
+    
     const input = document.createElement("input");
     input.type = "file";
     input.accept = "image/*";
 
     input.onchange = (e: Event) => {
       const file = (e.target as HTMLInputElement).files?.[0];
-      if (!file) return;
-
-      const imageUrl = URL.createObjectURL(file);
-      setGalleryImages((prev) => [...prev, imageUrl]);
-      setSelectedImage(imageUrl);
+      if (file && onAddPhoto) {
+        onAddPhoto(file);
+        if (file) {
+          const imageUrl = URL.createObjectURL(file);
+          setSelectedImage(imageUrl);
+        }
+      }
     };
 
     input.click();
   };
 
-  if (!galleryImages.length) return null;
+  if (!hotel?.gallery?.length) return null;
 
   return (
     <div className="bg-white rounded-xl shadow-md overflow-hidden">
-      {/* Header */}
       <div className="flex justify-between items-center px-6 py-4 border-b border-gray-200">
         <h2 className="text-xl font-bold text-gray-800">
-          Gallery ({galleryImages.length})
+          Gallery ({hotel.gallery.length})
         </h2>
 
         <button
@@ -52,7 +53,6 @@ const HotelGallery: React.FC<HotelGalleryProps> = ({
       </div>
 
       <div className="p-6">
-        {/* Main Image */}
         <div className="mb-6">
           <div className="relative h-64 md:h-80 lg:h-96 rounded-lg overflow-hidden">
             <img
@@ -63,9 +63,8 @@ const HotelGallery: React.FC<HotelGalleryProps> = ({
           </div>
         </div>
 
-        {/* Thumbnails */}
         <div className="grid grid-cols-4 gap-3">
-          {galleryImages.map((image, index) => (
+          {hotel.gallery.map((image, index) => (
             <button
               key={index}
               onClick={() => setSelectedImage(image)}
