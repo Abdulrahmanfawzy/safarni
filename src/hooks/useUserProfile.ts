@@ -187,7 +187,7 @@ export const useUserProfile = (
     setTimeout(() => {
       localStorage.removeItem("token");
       setUser(null);
-      navigate?.("/login");
+      navigate?.("/");
     }, 1500);
   };
 

@@ -1,4 +1,3 @@
-// components/NavbarActions.tsx
 import { useNavigate } from 'react-router-dom';
 import { SearchIcon, FilterIcon } from "../../icons";
 import { useUserProfile } from '../../../hooks/useUserProfile';
