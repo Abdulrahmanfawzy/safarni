@@ -6,7 +6,7 @@ import type {
 
 // Token
 export const getToken = (): string | null => {
-  return localStorage.getItem("token");
+  return localStorage.getItem("authToken");
 };
 
 // Language Cookie

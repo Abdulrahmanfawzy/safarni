@@ -1,63 +1,57 @@
-// store/slices/hotelSlice.ts
+// src/store/slices/hotelSlice.ts
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import type { HotelState, Hotel, Review, ReviewInput } from '@/types/hotel.types';
+import type { HotelState, Hotel, Review, ReviewInput, BookingRequest } from '@/types/hotel.types';
 
 const initialState: HotelState = {
-  currentHotel: {
-    id: 1,
-    name: 'Harbarthaven Hideaway',
-    location: 'New York / USA',
-    rating: 4.5,
-    about: 'A luxurious hideaway in the heart of New York, offering premium amenities and exceptional service. Experience comfort and elegance in our well-appointed rooms.',
-    gallery: [
-      'https://images.unsplash.com/photo-1566073771259-6a8506099945',
-      'https://images.unsplash.com/photo-1571896349842-33c89424de2d',
-      'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb',
-    ],
-  },
-  reviews: [
-    {
-      id: 1,
-      userId: 'user1',
-      userName: 'John Doe',
-      rating: 5,
-      title: 'Amazing Experience!',
-      comment: 'The hotel exceeded all my expectations. The service was exceptional.',
-      date: '2024-01-15',
-      helpful: 24,
-    },
-    {
-      id: 2,
-      userId: 'user2',
-      userName: 'Jane Smith',
-      rating: 4,
-      title: 'Great Location',
-      comment: 'Perfect location, clean rooms, friendly staff.',
-      date: '2024-01-10',
-      helpful: 18,
-    },
-  ],
+  currentHotel: null,
+  reviews: [],
   loading: false,
   error: null,
+  bookings: [],
+  bookingLoading: false,
+  bookingError: null,
 };
 
 const hotelSlice = createSlice({
   name: 'hotel',
   initialState,
   reducers: {
+    setCurrentHotel: (state, action: PayloadAction<Hotel | null>) => {
+      state.currentHotel = action.payload;
+    },
+    setReviews: (state, action: PayloadAction<Review[]>) => {
+      state.reviews = action.payload;
+    },
     addReview: (state, action: PayloadAction<ReviewInput>) => {
       const newReview: Review = {
-        ...action.payload,
+        userId: action.payload.userId || 'user_' + Date.now(),
+        userName: action.payload.userName,
+        rating: action.payload.rating,
+        comment: action.payload.comment,
+        title: action.payload.title || "",
         id: Date.now(),
-        userId: action.payload.userId || 'user' + Date.now(), // إضافة userId تلقائيًا
         date: new Date().toISOString().split('T')[0],
         helpful: 0,
       };
+      
       state.reviews.unshift(newReview);
     },
     updateHotel: (state, action: PayloadAction<Partial<Hotel>>) => {
-      state.currentHotel = { ...state.currentHotel, ...action.payload };
+      if (state.currentHotel) {
+        state.currentHotel = { ...state.currentHotel, ...action.payload };
+      } else {
+        state.currentHotel = action.payload as Hotel;
+      }
+    },
+    addHotelPhoto: (state, action: PayloadAction<string>) => {
+      if (state.currentHotel) {
+        const updatedGallery = [...(state.currentHotel.gallery || []), action.payload];
+        state.currentHotel = { 
+          ...state.currentHotel, 
+          gallery: updatedGallery 
+        };
+      }
     },
     setHelpful: (state, action: PayloadAction<{ reviewId: number; helpful: number }>) => {
       const review = state.reviews.find(r => r.id === action.payload.reviewId);
@@ -71,8 +65,47 @@ const hotelSlice = createSlice({
     setError: (state, action: PayloadAction<string | null>) => {
       state.error = action.payload;
     },
+    
+    addBooking: (state, action: PayloadAction<BookingRequest>) => {
+      state.bookings.push({
+        ...action.payload,
+        id: action.payload.id || Math.floor(Math.random() * 1000),
+        status: action.payload.status || "pending",
+        createdAt: action.payload.createdAt || new Date().toISOString()
+      });
+      state.bookingLoading = false;
+      state.bookingError = null;
+    },
+    setBookingLoading: (state, action: PayloadAction<boolean>) => {
+      state.bookingLoading = action.payload;
+    },
+    setBookingError: (state, action: PayloadAction<string | null>) => {
+      state.bookingError = action.payload;
+    },
+    
+    clearHotelData: (state) => {
+      state.currentHotel = null;
+      state.reviews = [];
+      state.error = null;
+      state.bookings = [];
+      state.bookingError = null;
+    }
   },
 });
 
-export const { addReview, updateHotel, setHelpful, setLoading, setError } = hotelSlice.actions;
+export const { 
+  setCurrentHotel, 
+  setReviews, 
+  addReview, 
+  updateHotel, 
+  addHotelPhoto,
+  setHelpful, 
+  setLoading, 
+  setError,
+  setBookingLoading,
+  setBookingError,
+  addBooking,
+  clearHotelData 
+} = hotelSlice.actions;
+
 export default hotelSlice.reducer;

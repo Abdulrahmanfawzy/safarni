@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { SearchIcon, FilterIcon } from "../../icons";
-import { useUserProfile } from '../../../hooks/useUserProfile';
-import { Avatar } from '../../profile/ui/Avatar';
+import { useUserProfile } from "../../../hooks/useUserProfile";
+import { Avatar } from "../../profile/ui/Avatar";
 
 interface NavbarActionsProps {
   onSearchClick?: () => void;
@@ -16,11 +16,12 @@ export const NavbarActions = ({
 }: NavbarActionsProps) => {
   const navigate = useNavigate();
   const { loading, avatarUrl } = useUserProfile();
+  console.log("avatarUrl", avatarUrl);
 
   const handleUserClick = () => {
     onUserClick?.();
 
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("authToken");
     navigate(token ? "/profile" : "/auth/login");
   };
 

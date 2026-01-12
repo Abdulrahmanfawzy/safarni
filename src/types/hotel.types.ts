@@ -1,50 +1,92 @@
-
-export interface HotelBase {
-  id?: number | string;
-  name?: string;
-  location?: string;
-  rating?: number;
+// src/types/hotel.types.ts
+export interface Hotel {
+  id: number;
+  name: string;
+  location: string;
+  image: string | null;
+  lat?: string;
+  lng?: string;
+  rating: number;
+  content_info?: string;
+  description?: string;
   about?: string;
-  amenities?: string[];
+  amenities: string[] | null;
   gallery?: string[];
-  phone?: string;
   pricePerNight?: number;
+  rooms?: Room[];
   discountPercentage?: number;
   nights?: number;
   taxesAndFees?: number;
+  phone?: string;
+  distance?: string;
 }
 
-export interface Hotel extends HotelBase {
-  id: number | string;
+export interface Room {
+  id: number;
   name: string;
-  location: string;
-  rating: number;
-  about: string;
-  amenities: string[];
-  gallery: string[];
 }
+
 export interface Review {
   id: number;
   userId: string;
   userName: string;
   rating: number;
-  title: string;
+  title?: string;
   comment: string;
   date: string;
   helpful: number;
 }
 
+export interface ReviewInput {
+  userId?: string;
+  userName: string;
+  rating: number;
+  title?: string;
+  comment: string;
+  photos?: File[];
+}
+
 export interface HotelState {
-  currentHotel: Hotel;
+  currentHotel: Hotel | null;
   reviews: Review[];
   loading: boolean;
   error: string | null;
+  bookings: BookingRequest[];
+  bookingLoading: boolean;
+  bookingError: string | null;
 }
 
-export interface ReviewInput {
-  rating: number;
-  title: string;
-  comment: string;
-  userName: string;
-  userId?: string; 
+export interface Booking {
+  id: number;
+  booking_type: string;
+  booking_status: string;
+  payment_status: string;
+  total_amount: string;
+  rooms: BookingRoom[];
+  created_at: string;
+}
+
+export interface BookingRoom {
+  room_id: number;
+  hotel_id: number;
+  adults: number;
+  teens: number;
+  children: number;
+  check_in: string;
+  check_out: string;
+  nights: number;
+  price_paid: string;
+}
+
+export interface BookingRequest {
+  id?: number;
+  room_id: number;
+  check_in: string;
+  check_out: string;
+  adults: number;
+  children: number;
+  infants: number;
+  comment?: string;
+  status?: string;
+  createdAt?: string;
 }
