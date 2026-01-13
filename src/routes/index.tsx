@@ -51,7 +51,7 @@ export default function AppRoutes() {
           <Route
             path="filter-panel"
             element={
-              <div className="pt-[110px] p-8">
+              <div className="pt-27.5 p-8">
                 <FilterPanelPage />
               </div>
             }
@@ -59,7 +59,7 @@ export default function AppRoutes() {
           <Route
             path="maps"
             element={
-              <div className="pt-[110px] p-8">
+              <div className="pt-27.5 p-8">
                 <h1>Maps Page</h1>
               </div>
             }
