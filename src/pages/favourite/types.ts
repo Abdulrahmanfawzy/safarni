@@ -9,3 +9,5 @@ export interface Tour {
   pickup: boolean;
   favorite: boolean;
 }
+
+
